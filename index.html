@@ -45,16 +45,28 @@ const { useState, useEffect, useRef, useCallback, createContext, useContext } = 
 // clicking "About" in one doesn't affect the others.
 // ─────────────────────────────────────────────────────────────
 const RouteCtx = createContext(null);
+const VALID_ROUTES = new Set(['home', 'about', 'cv', 'projects']);
 
-function RouteProvider({ initial = 'home', children }) {
-  const [route, setRoute] = useState(initial);
-  const [prev, setPrev] = useState(initial);
+function routeFromHash() {
+  const h = window.location.hash.slice(1);
+  return VALID_ROUTES.has(h) ? h : 'home';
+}
+
+function RouteProvider({ children }) {
+  const [route, setRoute] = useState(routeFromHash);
+
+  useEffect(() => {
+    const onHash = () => setRoute(routeFromHash());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
   const go = useCallback((r) => {
-    setPrev((p) => route);
-    setRoute(r);
-  }, [route]);
+    window.location.hash = r === 'home' ? '' : r;
+  }, []);
+
   return (
-    <RouteCtx.Provider value={{ route, prev, go }}>
+    <RouteCtx.Provider value={{ route, go }}>
       {children}
     </RouteCtx.Provider>
   );
@@ -808,10 +820,10 @@ function CLAbout() {
 
       <Reveal delay={160}>
         <CLGrid style={{ marginTop: 56 }}>
-          <div style={{ gridColumn: isTablet ? '1 / span 4' : '1 / span 3' }}>
-            <img src="portrait.jpg" style={{ width: '100%', height: isTablet ? 220 : 260, objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
+          <div style={{ gridColumn: '1 / span 3' }}>
+            <img src="portrait.jpg" style={{ width: 220, height: 260, objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
           </div>
-          <div style={{ gridColumn: isTablet ? '5 / span 8' : '5 / span 7', fontSize: 15, lineHeight: 1.7 }}>
+          <div style={{ gridColumn: '5 / span 7', fontSize: 15, lineHeight: 1.7 }}>
             <p style={{ marginTop: 0 }}>
               I'm Jakob, a Biomedical Engineering student at Cal Poly SLO, graduating June 2026.
               I was recruited as a Division I diver, which led me to pursue biomedical engineering to
