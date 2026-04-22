@@ -544,7 +544,7 @@ function CLShell({ children }) {
               width: 36, height: 36, borderRadius: 2, overflow: 'hidden',
               flexShrink: 0, border: `1px solid ${CL_COLORS.rule}`,
             }}>
-              <Portrait w={36} h={36} note="JM" color={CL_COLORS.ink} bg={CL_COLORS.paper} />
+              <img src="portrait.jpg" style={{ width: 36, height: 36, objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
             </div>
           )}
           <div>
@@ -652,7 +652,7 @@ function CLHome() {
               width: 180, height: 230,
               border: `1px solid ${CL_COLORS.rule}`, overflow: 'hidden',
             }}>
-              <Portrait w={180} h={230} note="portrait" color={CL_COLORS.ink} bg={CL_COLORS.paper} />
+              <img src="portrait.jpg" style={{ width: 180, height: 230, objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
             </div>
             <div style={{
               marginTop: 10, fontSize: 10, letterSpacing: 1.4,
@@ -785,7 +785,7 @@ function CLAbout() {
       <Reveal delay={160}>
         <CLGrid style={{ marginTop: 56 }}>
           <div style={{ gridColumn: '1 / span 3' }}>
-            <Portrait w={220} h={260} note="§1 · portrait" color={CL_COLORS.ink} bg="#e3ddcc" />
+            <img src="portrait.jpg" style={{ width: 220, height: 260, objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
           </div>
           <div style={{ gridColumn: '5 / span 7', fontSize: 15, lineHeight: 1.7 }}>
             <p style={{ marginTop: 0 }}>
