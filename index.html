@@ -11,6 +11,10 @@
   html, body, #root { margin: 0; padding: 0; height: 100%; background: #eeeae0; }
   * { box-sizing: border-box; }
   @media (hover: none) { [data-clinic-cursor] { display: none !important; } }
+  @media (min-width: 681px) and (max-width: 1024px) {
+    .cl-hero { font-size: 80px !important; letter-spacing: -2.5px !important; line-height: 0.9 !important; }
+    .cl-h1 { font-size: 40px !important; letter-spacing: -0.8px !important; }
+  }
   @media (max-width: 680px) {
     .cl-grid { grid-template-columns: 1fr !important; column-gap: 0 !important; }
     .cl-grid > * { grid-column: 1 / -1 !important; }
@@ -58,16 +62,20 @@ function RouteProvider({ initial = 'home', children }) {
 
 const useRoute = () => useContext(RouteCtx);
 
-function useMobile(bp = 680) {
-  const [m, setM] = useState(window.innerWidth < bp);
+function useBreakpoint(mobileBp = 680, tabletBp = 1024) {
+  const get = () => ({
+    isMobile: window.innerWidth <= mobileBp,
+    isTablet: window.innerWidth > mobileBp && window.innerWidth <= tabletBp,
+  });
+  const [bp, setBp] = useState(get);
   useEffect(() => {
-    const h = () => setM(window.innerWidth < bp);
+    const h = () => setBp(get());
     window.addEventListener('resize', h);
     return () => window.removeEventListener('resize', h);
-  }, [bp]);
-  return m;
+  }, []);
+  return bp;
 }
-const MobileCtx = createContext(false);
+const MobileCtx = createContext({ isMobile: false, isTablet: false });
 
 // ─────────────────────────────────────────────────────────────
 // Reveal on mount/route change — IntersectionObserver within
@@ -534,7 +542,7 @@ function CLGrid({ children, style = {} }) {
 
 function CLShell({ children }) {
   const { route, go } = useRoute();
-  const isMobile = useContext(MobileCtx);
+  const { isMobile, isTablet } = useContext(MobileCtx);
   const bpmRef = useRef(62);
   const pages = [
     { id: 'home', n: '§0', l: 'Index' },
@@ -549,7 +557,7 @@ function CLShell({ children }) {
       display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden',
     }}>
       <header style={{
-        padding: isMobile ? '12px 20px' : '22px 40px',
+        padding: isMobile ? '12px 20px' : isTablet ? '16px 32px' : '22px 40px',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         borderBottom: `1px solid ${CL_COLORS.rule}`, flexShrink: 0,
       }}>
@@ -625,7 +633,7 @@ function CLShell({ children }) {
         display: 'flex', flexWrap: 'wrap',
         justifyContent: isMobile ? 'center' : 'space-between',
         gap: isMobile ? '8px 20px' : undefined,
-        padding: isMobile ? '12px 20px' : '14px 40px',
+        padding: isMobile ? '12px 20px' : isTablet ? '12px 32px' : '14px 40px',
         borderTop: `1px solid ${CL_COLORS.rule}`,
         fontSize: 10, letterSpacing: 1.2, color: CL_COLORS.mute,
         textTransform: 'uppercase', flexShrink: 0,
@@ -642,9 +650,9 @@ function CLShell({ children }) {
 
 function CLHome() {
   const { go } = useRoute();
-  const isMobile = useContext(MobileCtx);
+  const { isMobile, isTablet } = useContext(MobileCtx);
   return (
-    <div style={{ padding: isMobile ? '36px 20px 60px' : '56px 40px 80px' }}>
+    <div style={{ padding: isMobile ? '36px 20px 60px' : isTablet ? '44px 32px 70px' : '56px 40px 80px' }}>
       <Reveal>
         <CLLabel n="§0.1">Subject</CLLabel>
       </Reveal>
@@ -782,9 +790,9 @@ function CLHome() {
 }
 
 function CLAbout() {
-  const isMobile = useContext(MobileCtx);
+  const { isMobile, isTablet } = useContext(MobileCtx);
   return (
-    <div style={{ padding: isMobile ? '36px 20px 60px' : '56px 40px 80px' }}>
+    <div style={{ padding: isMobile ? '36px 20px 60px' : isTablet ? '44px 32px 70px' : '56px 40px 80px' }}>
       <Reveal><CLLabel n="§1.0">About</CLLabel></Reveal>
       <Reveal delay={80}>
         <CLGrid style={{ marginTop: 18 }}>
@@ -800,10 +808,10 @@ function CLAbout() {
 
       <Reveal delay={160}>
         <CLGrid style={{ marginTop: 56 }}>
-          <div style={{ gridColumn: '1 / span 3' }}>
-            <img src="portrait.jpg" style={{ width: 220, height: 260, objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
+          <div style={{ gridColumn: isTablet ? '1 / span 4' : '1 / span 3' }}>
+            <img src="portrait.jpg" style={{ width: '100%', height: isTablet ? 220 : 260, objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
           </div>
-          <div style={{ gridColumn: '5 / span 7', fontSize: 15, lineHeight: 1.7 }}>
+          <div style={{ gridColumn: isTablet ? '5 / span 8' : '5 / span 7', fontSize: 15, lineHeight: 1.7 }}>
             <p style={{ marginTop: 0 }}>
               I'm Jakob, a Biomedical Engineering student at Cal Poly SLO, graduating June 2026.
               I was recruited as a Division I diver, which led me to pursue biomedical engineering to
@@ -858,7 +866,7 @@ function CLAbout() {
 }
 
 function CLCV() {
-  const isMobile = useContext(MobileCtx);
+  const { isMobile, isTablet } = useContext(MobileCtx);
   const roles = [
     ['Jun 2026 - Present', 'Data Science & Visualization Intern', 'Apple', 'Biomechanics R&D team; building internal tools to analyze and visualize wearable study data.'],
     ['Jun – Dec 2025', 'Biomedical R&D Engineering Intern', 'Apple', 'Signal-processing pipelines (200M+ rows), wearable IRB studies, hardware/firmware debugging across experimental prototypes.'],
@@ -867,7 +875,7 @@ function CLCV() {
     ['Sept 2024 – Mar 2025', 'Supplemental Workshop Leader', 'Cal Poly SLO', 'Taught calculus and linear analysis to undergraduate students.'],
   ];
   return (
-    <div style={{ padding: isMobile ? '36px 20px 60px' : '56px 40px 80px' }}>
+    <div style={{ padding: isMobile ? '36px 20px 60px' : isTablet ? '44px 32px 70px' : '56px 40px 80px' }}>
       <Reveal>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
           <CLLabel n="§2.0">Curriculum Vitae</CLLabel>
@@ -942,7 +950,7 @@ function CLCV() {
 }
 
 function CLProjects() {
-  const isMobile = useContext(MobileCtx);
+  const { isMobile, isTablet } = useContext(MobileCtx);
   const [active, setActive] = React.useState(null);
   const projects = [
     { t: 'Moodle – AI Canine Collar', yr: '2025–26', tag: 'Hardware · Senior Capstone', note: 'Collar-mounted system with BLE firmware (C++), 6-DOF IMU activity classifier, YAMNet bark detection, and a CoreML valence-arousal classifier — plus a full Swift iOS companion app.' },
@@ -953,7 +961,7 @@ function CLProjects() {
     { t: 'Wearable IRB Studies', yr: '2025', tag: 'Clinical · Apple', note: 'Led IRB-approved multimodal sensor studies (N ≥ 30) at Apple, coordinating data collection and validating experimental hardware against clinical-grade ground truth.' },
   ];
   return (
-    <div style={{ padding: isMobile ? '36px 20px 60px' : '56px 40px 80px' }}>
+    <div style={{ padding: isMobile ? '36px 20px 60px' : isTablet ? '44px 32px 70px' : '56px 40px 80px' }}>
       <Reveal><CLLabel n="§3.0">Projects</CLLabel></Reveal>
       <Reveal delay={80}>
         <CLGrid style={{ marginTop: 18 }}>
@@ -969,7 +977,7 @@ function CLProjects() {
 
       <CLGrid style={{ marginTop: 56, rowGap: 36 }}>
         {projects.map((p, i) => (
-          <Reveal key={i} delay={140 + i * 70} style={{ gridColumn: `${1 + (i % 3) * 4} / span 4` }}>
+          <Reveal key={i} delay={140 + i * 70} style={{ gridColumn: isTablet ? `${1 + (i % 2) * 6} / span 6` : `${1 + (i % 3) * 4} / span 4` }}>
             <div
               onClick={() => setActive(active === i ? null : i)}
               data-cursor="hover"
@@ -1017,9 +1025,9 @@ function Clinic() {
 function ClinicInner() {
   const { route } = useRoute();
   const ref = React.useRef(null);
-  const isMobile = useMobile();
+  const bp = useBreakpoint();
   return (
-    <MobileCtx.Provider value={isMobile}>
+    <MobileCtx.Provider value={bp}>
       <div ref={ref} style={{ height: '100%', position: 'relative' }}>
         <CustomCursor containerRef={ref} color={CL_COLORS.ink} />
         <CLShell>
