@@ -965,12 +965,10 @@ function CLProjects() {
   const { isMobile, isTablet } = useContext(MobileCtx);
   const [active, setActive] = React.useState(null);
   const projects = [
+    { t: 'MPI Faust PCA Visualization', yr: '2025', tag: 'Python', note: 'Interactive visualization of PCA results for the MPI Faust dataset to better understand how principal components capture shape variations.', link: 'dashboard.html' },
     { t: 'Moodle – AI Canine Collar', yr: '2025–26', tag: 'Hardware · Senior Capstone', note: 'Collar-mounted system with BLE firmware (C++), 6-DOF IMU activity classifier, YAMNet bark detection, and a CoreML valence-arousal classifier — plus a full Swift iOS companion app.' },
     { t: 'iPhone Gait Analysis', yr: '2024–', tag: 'Research · Biomechanics', note: 'Co-led validation of iPhone-based gait analysis against gold-standard motion capture. Structural analysis in JMP and Python. Published in MDPI Sensors; presented at BMES 2025.' },
-    { t: 'NIH Spine Wearable', yr: '2024–', tag: 'Hardware · NIH-funded', note: 'Contributing to mechanical development, sensor integration, and study design for a spine-mounted wearable at the Mobile Biomechanics Lab, Cal Poly.' },
-    { t: 'Signal Processing Pipelines', yr: '2025', tag: 'Python · Apple', note: 'Scalable pipelines for 200M+ rows of time-series wearable sensor data at Apple: peak detection, FFT, windowing, and parallelized anomaly detection replacing manual review.' },
-    { t: '3D-Mesh Validation', yr: '2025', tag: 'Python · Apple', note: 'SciPy kd-tree pipeline achieving 240× speedup for structural compliance checks across 60+ datasets, validating sub-4 mm geometric error tolerances.', link: 'dashboard.html' },
-    { t: 'Wearable IRB Studies', yr: '2025', tag: 'Clinical · Apple', note: 'Led IRB-approved multimodal sensor studies (N ≥ 30) at Apple, coordinating data collection and validating experimental hardware against clinical-grade ground truth.' },
+    { t: 'NSF Spine Wearable', yr: '2024–', tag: 'Hardware · NIH-funded', note: 'Contributing to mechanical development, sensor integration, and study design for a spine-mounted wearable at the Mobile Biomechanics Lab, Cal Poly.' },
   ];
   return (
     <div style={{ padding: isMobile ? '36px 20px 60px' : isTablet ? '44px 32px 70px' : '56px 40px 80px' }}>
