@@ -969,7 +969,7 @@ function CLProjects() {
     { t: 'iPhone Gait Analysis', yr: '2024–', tag: 'Research · Biomechanics', note: 'Co-led validation of iPhone-based gait analysis against gold-standard motion capture. Structural analysis in JMP and Python. Published in MDPI Sensors; presented at BMES 2025.' },
     { t: 'NIH Spine Wearable', yr: '2024–', tag: 'Hardware · NIH-funded', note: 'Contributing to mechanical development, sensor integration, and study design for a spine-mounted wearable at the Mobile Biomechanics Lab, Cal Poly.' },
     { t: 'Signal Processing Pipelines', yr: '2025', tag: 'Python · Apple', note: 'Scalable pipelines for 200M+ rows of time-series wearable sensor data at Apple: peak detection, FFT, windowing, and parallelized anomaly detection replacing manual review.' },
-    { t: '3D-Mesh Validation', yr: '2025', tag: 'Python · Apple', note: 'SciPy kd-tree pipeline achieving 240× speedup for structural compliance checks across 60+ datasets, validating sub-4 mm geometric error tolerances.' },
+    { t: '3D-Mesh Validation', yr: '2025', tag: 'Python · Apple', note: 'SciPy kd-tree pipeline achieving 240× speedup for structural compliance checks across 60+ datasets, validating sub-4 mm geometric error tolerances.', link: 'dashboard.html' },
     { t: 'Wearable IRB Studies', yr: '2025', tag: 'Clinical · Apple', note: 'Led IRB-approved multimodal sensor studies (N ≥ 30) at Apple, coordinating data collection and validating experimental hardware against clinical-grade ground truth.' },
   ];
   return (
@@ -1014,9 +1014,16 @@ function CLProjects() {
                 fontSize: 13, lineHeight: 1.55, color: CL_COLORS.mute,
               }}>
                 {p.note}
-                <div style={{ marginTop: 10, fontSize: 10, letterSpacing: 1.4, color: CL_COLORS.ink, textTransform: 'uppercase' }}>
-                  Read the case →
-                </div>
+                {p.link
+                  ? <a href={p.link} target="_blank" rel="noopener noreferrer"
+                      onClick={e => e.stopPropagation()}
+                      style={{ display: 'block', marginTop: 10, fontSize: 10, letterSpacing: 1.4, color: CL_COLORS.ink, textTransform: 'uppercase', textDecoration: 'none' }}>
+                      View interactive dashboard →
+                    </a>
+                  : <div style={{ marginTop: 10, fontSize: 10, letterSpacing: 1.4, color: CL_COLORS.ink, textTransform: 'uppercase' }}>
+                      Read the case →
+                    </div>
+                }
               </div>
             </div>
           </Reveal>
