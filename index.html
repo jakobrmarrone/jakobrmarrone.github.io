@@ -879,24 +879,42 @@ function CLAbout() {
 
 function CLCV() {
   const { isMobile, isTablet } = useContext(MobileCtx);
+  const [pdfLoaded, setPdfLoaded] = React.useState(true);
+  const [pdfError, setPdfError] = React.useState(false);
   const roles = [
-    ['Jun 2026 - Present', 'Data Science & Visualization Intern', 'Apple', 'Biomechanics R&D team; building internal tools to analyze and visualize wearable study data.'],
-    ['Jun – Dec 2025', 'Biomedical R&D Engineering Intern', 'Apple', 'Signal-processing pipelines (200M+ rows), wearable IRB studies, hardware/firmware debugging across experimental prototypes.'],
-    ['Dec 2024 →', 'Researcher', 'Mobile Biomechanics Lab · Cal Poly', 'iPhone gait validation vs. motion capture; NIH-funded spine wearable; co-author MDPI Sensors; presenter BMES 2025.'],
-    ['Jun – Sept 2024', 'Orthopedic Sales Intern', 'Stryker', 'OR support for 100+ joint arthroplasty procedures; independently guided a surgeon through a total knee arthroplasty.'],
-    ['Sept 2024 – Mar 2025', 'Supplemental Workshop Leader', 'Cal Poly SLO', 'Taught calculus and linear analysis to undergraduate students.'],
+    ['Jun 2026 →', 'Data Science & Visualization Intern', 'Apple'],
+    ['Jun – Dec 2025', 'Biomedical R&D Engineering Intern', 'Apple'],
+    ['Dec 2024 →', 'Researcher', 'Mobile Biomechanics Lab · Cal Poly'],
+    ['Jun – Sept 2024', 'Orthopedic Sales Intern', 'Stryker'],
+    ['Sept 2024 – Mar 2025', 'Supplemental Workshop Leader', 'Cal Poly SLO'],
   ];
+
+  const stats = [
+    ['04', 'Internships', 'Apple ×2 · Stryker · Cal Poly'],
+    ['3.95', 'Major GPA', '3.65 cumulative'],
+    ['01', 'Publication', 'MDPI Sensors · 2025'],
+    ['2026', 'Graduating', 'B.S. Biomed Eng'],
+  ];
+
+  const skillGroups = [
+    ['Languages', ['Python', 'C++', 'Swift', 'MATLAB']],
+    ['Data / ML', ['SciPy', 'NumPy', 'pandas', 'CoreML', 'JMP']],
+    ['Hardware', ['Arduino', 'BLE firmware', 'IMU', 'SolidWorks', 'COMSOL']],
+    ['Domain', ['Signal processing', 'Biomechanics', 'IRB & study design', 'Motion capture']],
+  ];
+
   return (
     <div style={{ padding: isMobile ? '36px 20px 60px' : isTablet ? '44px 32px 70px' : '56px 40px 80px' }}>
       <Reveal>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
           <CLLabel n="§2.0">Curriculum Vitae</CLLabel>
-          <a href="#" data-cursor="hover" style={{
-            fontSize: 11, letterSpacing: 0.5, color: CL_COLORS.ink,
+          <a href="resume.pdf" download data-cursor="hover" style={{
+            fontSize: 11, letterSpacing: 1.4, color: CL_COLORS.ink, textTransform: 'uppercase',
             textDecoration: 'none', borderBottom: `1px solid ${CL_COLORS.ink}`, paddingBottom: 2,
-          }}>Download .pdf ↓</a>
+          }}>Download resume.pdf ↓</a>
         </div>
       </Reveal>
+
       <Reveal delay={80}>
         <CLGrid style={{ marginTop: 18 }}>
           <h1 className="cl-h1" style={{
@@ -904,56 +922,148 @@ function CLCV() {
             margin: 0, fontFamily: CL_FONTS.mono, fontSize: 52, fontWeight: 600,
             lineHeight: 1.05, letterSpacing: -1.2,
           }}>
-            Apple, Stryker, Cal Poly.<br />One very consistent question.
+            The short version.<br />The long one is in the PDF.
           </h1>
         </CLGrid>
       </Reveal>
 
+      {/* STAT TILES */}
       <Reveal delay={160}>
-        <div style={{ marginTop: 56 }}>
-          <CLLabel n="§2.1">Experience &amp; Internships</CLLabel>
-        </div>
-      </Reveal>
-      <CLGrid style={{ marginTop: 14, borderTop: `1px solid ${CL_COLORS.ink}` }}>
-        {roles.map((r, i) => (
-          <React.Fragment key={i}>
-            <Reveal delay={220 + i * 60} style={{ gridColumn: '1 / span 2', padding: '18px 0', borderBottom: `1px solid ${CL_COLORS.rule}`, fontSize: 11, color: CL_COLORS.mute, letterSpacing: 0.3 }}>{r[0]}</Reveal>
-            <Reveal delay={230 + i * 60} style={{ gridColumn: '3 / span 4', padding: '18px 0', borderBottom: `1px solid ${CL_COLORS.rule}`, fontSize: 15, fontWeight: 600 }}>{r[1]}</Reveal>
-            <Reveal delay={240 + i * 60} style={{ gridColumn: '7 / span 2', padding: '18px 0', borderBottom: `1px solid ${CL_COLORS.rule}`, fontSize: 13 }}>{r[2]}</Reveal>
-            <Reveal delay={250 + i * 60} style={{ gridColumn: '9 / span 4', padding: '18px 0', borderBottom: `1px solid ${CL_COLORS.rule}`, fontSize: 13, color: CL_COLORS.mute, lineHeight: 1.5 }}>{r[3]}</Reveal>
-          </React.Fragment>
-        ))}
-      </CLGrid>
-
-      <Reveal delay={500}>
-        <div style={{ marginTop: 48 }}>
-          <CLLabel n="§2.2">Education</CLLabel>
-        </div>
-      </Reveal>
-      <CLGrid style={{ marginTop: 14, borderTop: `1px solid ${CL_COLORS.ink}` }}>
-        {[
-          ['2022 → 2026', 'B.S. Biomedical Engineering', 'Cal Poly SLO · GPA 3.65 · Major GPA 3.95'],
-          ['Coursework', 'Biomedical Signal Processing · Biomechanics · Fluid Mechanics · Dynamics · Statics · Thermodynamics · Human-Robot Interaction · Engineering Design'],
-          ['Awards', "Dean’s List · President’s List"],
-        ].map((r, i) => (
-          <React.Fragment key={i}>
-            <Reveal delay={560 + i * 60} style={{ gridColumn: '1 / span 2', padding: '16px 0', borderBottom: `1px solid ${CL_COLORS.rule}`, fontSize: 11, color: CL_COLORS.mute }}>{r[0]}</Reveal>
-            <Reveal delay={570 + i * 60} style={{ gridColumn: '3 / span 6', padding: '16px 0', borderBottom: `1px solid ${CL_COLORS.rule}`, fontSize: 15, fontWeight: 600 }}>{r[1]}</Reveal>
-            <Reveal delay={580 + i * 60} style={{ gridColumn: '9 / span 4', padding: '16px 0', borderBottom: `1px solid ${CL_COLORS.rule}`, fontSize: 13 }}>{r[2]}</Reveal>
-          </React.Fragment>
-        ))}
-      </CLGrid>
-
-      <Reveal delay={720}>
-        <div style={{ marginTop: 48 }}>
-          <CLLabel n="§2.3">Skills</CLLabel>
-          <CLGrid style={{ marginTop: 14 }}>
-            <div style={{ gridColumn: '1 / span 12', fontSize: 14, lineHeight: 1.8, borderTop: `1px solid ${CL_COLORS.ink}`, paddingTop: 18 }}>
-              Python · SciPy · NumPy · pandas · MATLAB · ROS2 ·
-              Arduino / C++ · Swift · AWS · SolidWorks · COMSOL ·
-              signal processing · BLE firmware · CoreML · embedded systems ·
-              wearable prototyping · motion capture · Git · IRB &amp; study design.
+        <CLGrid style={{ marginTop: 56, borderTop: `1px solid ${CL_COLORS.ink}` }}>
+          {stats.map(([n, k, s], i) => (
+            <div key={k} style={{
+              gridColumn: isMobile ? '1 / span 12' : `${1 + i * 3} / span 3`,
+              padding: '24px 0 22px',
+              borderBottom: `1px solid ${CL_COLORS.rule}`,
+              borderRight: !isMobile && i < 3 ? `1px solid ${CL_COLORS.rule}` : 'none',
+              paddingLeft: !isMobile && i > 0 ? 18 : 0,
+              paddingRight: !isMobile && i < 3 ? 18 : 0,
+            }}>
+              <div style={{ fontSize: 9, letterSpacing: 1.6, color: CL_COLORS.mute, textTransform: 'uppercase', marginBottom: 12 }}>{`§2.${i+1}`}</div>
+              <div style={{
+                fontFamily: CL_FONTS.mono, fontSize: 52, fontWeight: 600,
+                letterSpacing: -2, lineHeight: 1, fontVariantNumeric: 'tabular-nums',
+              }}>{n}</div>
+              <div style={{ fontSize: 13, fontWeight: 600, marginTop: 10, letterSpacing: -0.2 }}>{k}</div>
+              <div style={{ fontSize: 11, color: CL_COLORS.mute, marginTop: 4, letterSpacing: 0.2 }}>{s}</div>
             </div>
+          ))}
+        </CLGrid>
+      </Reveal>
+
+      {/* INLINE PDF + ROLES (split layout) */}
+      <Reveal delay={280}>
+        <div style={{ marginTop: 56 }}>
+          <CLLabel n="§2.5">Resume · Inline</CLLabel>
+        </div>
+      </Reveal>
+
+      <CLGrid style={{ marginTop: 14, alignItems: 'start' }}>
+        {/* Roles list — left */}
+        <Reveal delay={340} style={{ gridColumn: isMobile ? '1 / span 12' : '1 / span 5', borderTop: `1px solid ${CL_COLORS.ink}` }}>
+          <div style={{
+            display: 'flex', justifyContent: 'space-between',
+            padding: '12px 0 10px', fontSize: 9, letterSpacing: 1.4,
+            color: CL_COLORS.mute, textTransform: 'uppercase',
+          }}>
+            <span>Roles</span><span>n=5</span>
+          </div>
+          {roles.map((r, i) => (
+            <div key={i} style={{
+              padding: '12px 0',
+              borderTop: `1px solid ${CL_COLORS.rule}`,
+              display: 'grid', gridTemplateColumns: '90px 1fr',
+              columnGap: 14, alignItems: 'baseline',
+            }}>
+              <div style={{ fontSize: 10, color: CL_COLORS.mute, letterSpacing: 0.3, fontVariantNumeric: 'tabular-nums' }}>{r[0]}</div>
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 600, letterSpacing: -0.2 }}>{r[1]}</div>
+                <div style={{ fontSize: 11, color: CL_COLORS.mute, marginTop: 2 }}>{r[2]}</div>
+              </div>
+            </div>
+          ))}
+          <div style={{
+            padding: '14px 0', borderTop: `1px solid ${CL_COLORS.rule}`,
+            fontSize: 10, letterSpacing: 1.4, color: CL_COLORS.mute, textTransform: 'uppercase',
+          }}>
+            B.S. Biomed Eng · Cal Poly SLO · 2022 → 2026 · Dean's & President's List
+          </div>
+        </Reveal>
+
+        {/* PDF embed — right */}
+        <Reveal delay={420} style={{ gridColumn: isMobile ? '1 / span 12' : '7 / span 6', marginTop: isMobile ? 36 : 0 }}>
+          <div style={{
+            border: `1px solid ${CL_COLORS.ink}`,
+            background: '#f4f1ea',
+            position: 'relative',
+            height: isMobile ? 480 : 720,
+            display: 'flex', flexDirection: 'column',
+          }}>
+            <div style={{
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              padding: '10px 14px', borderBottom: `1px solid ${CL_COLORS.rule}`,
+              fontSize: 9, letterSpacing: 1.4, textTransform: 'uppercase', color: CL_COLORS.mute,
+            }}>
+              <span>resume.pdf</span>
+              <a href="resume.pdf" target="_blank" rel="noopener noreferrer" data-cursor="hover" style={{
+                color: CL_COLORS.ink, textDecoration: 'none',
+                borderBottom: `1px solid ${CL_COLORS.ink}`, paddingBottom: 1,
+              }}>Open ↗</a>
+            </div>
+            <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+              <object data="resume.pdf#toolbar=0&navpanes=0&view=FitH" type="application/pdf"
+                style={{ width: '100%', height: '100%', border: 0, display: 'block' }}
+                onError={() => setPdfError(true)}
+              >
+                <div style={{
+                  position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column',
+                  alignItems: 'center', justifyContent: 'center', gap: 16,
+                  padding: 24, textAlign: 'center',
+                }}>
+                  <div style={{ fontSize: 11, letterSpacing: 1.4, textTransform: 'uppercase', color: CL_COLORS.mute }}>resume.pdf · not embedded</div>
+                  <div style={{ fontSize: 13, color: CL_COLORS.ink, maxWidth: 320, lineHeight: 1.5 }}>
+                    Drop a <code>resume.pdf</code> in the project root to embed it inline here.
+                  </div>
+                  <a href="resume.pdf" download style={{
+                    fontSize: 11, letterSpacing: 1.4, textTransform: 'uppercase',
+                    color: CL_COLORS.ink, textDecoration: 'none',
+                    border: `1px solid ${CL_COLORS.ink}`, padding: '8px 14px',
+                  }}>Download anyway ↓</a>
+                </div>
+              </object>
+            </div>
+          </div>
+        </Reveal>
+      </CLGrid>
+
+      {/* SKILLS — categorized chips */}
+      <Reveal delay={560}>
+        <div style={{ marginTop: 56 }}>
+          <CLLabel n="§2.6">Skills</CLLabel>
+          <CLGrid style={{ marginTop: 14, borderTop: `1px solid ${CL_COLORS.ink}` }}>
+            {skillGroups.map(([cat, items], i) => (
+              <div key={cat} style={{
+                gridColumn: isMobile ? '1 / span 12' : `${1 + i * 3} / span 3`,
+                padding: '18px 0',
+                borderBottom: `1px solid ${CL_COLORS.rule}`,
+                paddingRight: !isMobile && i < 3 ? 16 : 0,
+              }}>
+                <div style={{
+                  fontSize: 9, letterSpacing: 1.6, color: CL_COLORS.mute,
+                  textTransform: 'uppercase', marginBottom: 12,
+                }}>{cat}</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {items.map((s) => (
+                    <span key={s} style={{
+                      fontSize: 11, letterSpacing: 0.2,
+                      padding: '4px 8px',
+                      border: `1px solid ${CL_COLORS.rule}`,
+                      color: CL_COLORS.ink,
+                    }}>{s}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
           </CLGrid>
         </div>
       </Reveal>
@@ -961,15 +1071,244 @@ function CLCV() {
   );
 }
 
+// ─────────────────────────────────────────────────────────────
+// TorsoPreview — lightweight pure-canvas 3D wireframe of a
+// parametric torso. Drag to rotate, optional auto-spin,
+// PC1 slider deforms the silhouette in real time.
+// ─────────────────────────────────────────────────────────────
+function TorsoPreview({ height = 360, color = '#0f0f0f', accent = 'oklch(0.62 0.14 240)', active = true, autoSpin = true, pc1 = 0, pc2 = 0, onPc1Change, onPc2Change, label = 'PARTICIPANT 01 · A-POSE', interactive = true }) {
+  const canvasRef = useRef(null);
+  const wrapRef = useRef(null);
+  const stateRef = useRef({ ax: 0.18, ay: 0, dragging: false, lx: 0, ly: 0, vx: 0, vy: 0 });
+
+  // Build torso ring geometry once: 22 horizontal slices, 36 vertices each.
+  // Realistic-ish torso silhouette: narrow waist, broader shoulders/hips.
+  const geom = React.useMemo(() => {
+    const slices = 22, segs = 36;
+    const rings = [];
+    for (let i = 0; i < slices; i++) {
+      const t = i / (slices - 1); // 0 = waist, 1 = shoulder
+      // Silhouette profile: hourglass-ish
+      const waist = 0.85 + 0.25 * Math.sin(Math.PI * t * 0.7);
+      const shoulder = t > 0.7 ? (t - 0.7) / 0.3 : 0;
+      const r = waist + shoulder * 0.55;
+      // Slight oval (front/back narrower than side)
+      const ry = r * 0.72;
+      const rx = r;
+      const y = (t - 0.5) * 2.6;
+      const ring = [];
+      for (let s = 0; s < segs; s++) {
+        const a = (s / segs) * Math.PI * 2;
+        ring.push([Math.cos(a) * rx, y, Math.sin(a) * ry]);
+      }
+      rings.push(ring);
+    }
+    return { rings, slices, segs };
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const wrap = wrapRef.current;
+    if (!canvas || !wrap) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let W = wrap.clientWidth, H = height, raf;
+    const resize = () => {
+      W = wrap.clientWidth; H = height;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    };
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(wrap);
+
+    const ctx = canvas.getContext('2d');
+
+    const draw = () => {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      const st = stateRef.current;
+      // physics: damped rotation + auto spin when no drag
+      if (!st.dragging) {
+        if (autoSpin && active) st.ay += 0.0035;
+        st.vx *= 0.92; st.vy *= 0.92;
+        st.ay += st.vx; st.ax += st.vy;
+        st.ax = Math.max(-0.6, Math.min(0.6, st.ax));
+      }
+
+      const cosY = Math.cos(st.ay), sinY = Math.sin(st.ay);
+      const cosX = Math.cos(st.ax), sinX = Math.sin(st.ax);
+      const cx = W / 2, cy = H / 2;
+      const scale = Math.min(W, H) * 0.30;
+
+      // Project all vertices, applying PC deformations in model space
+      const projected = geom.rings.map((ring, ri) => {
+        const t = ri / (geom.slices - 1);
+        // PC1: torso width (uniform xz scale, small extra at chest)
+        const pc1Scale = 1 + pc1 * 0.18 * (0.6 + 0.4 * Math.sin(Math.PI * t));
+        // PC2: hip-shoulder taper (negative at waist, positive at top)
+        const pc2Scale = 1 + pc2 * 0.16 * (t - 0.5) * 2;
+        return ring.map(([x, y, z]) => {
+          const sx = x * pc1Scale * pc2Scale;
+          const sz = z * pc1Scale * pc2Scale;
+          // rotate Y
+          let rx = sx * cosY - sz * sinY;
+          let rz = sx * sinY + sz * cosY;
+          // rotate X
+          let ry = y * cosX - rz * sinX;
+          rz = y * sinX + rz * cosX;
+          // perspective
+          const persp = 4 / (4 - rz);
+          return [cx + rx * scale * persp, cy - ry * scale * persp, rz];
+        });
+      });
+
+      // Draw horizontal rings (with depth-based alpha)
+      ctx.lineWidth = 1;
+      projected.forEach((ring, ri) => {
+        const z = ring.reduce((s, p) => s + p[2], 0) / ring.length;
+        const a = 0.3 + 0.55 * (1 - (z + 1.5) / 3);
+        ctx.strokeStyle = `rgba(15,15,15,${Math.max(0.08, Math.min(0.85, a))})`;
+        ctx.beginPath();
+        ring.forEach(([x, y], i) => i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y));
+        ctx.closePath();
+        ctx.stroke();
+      });
+
+      // Draw vertical seams (every 4 segs)
+      for (let s = 0; s < geom.segs; s += 4) {
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(15,15,15,0.18)';
+        for (let r = 0; r < geom.slices; r++) {
+          const [x, y] = projected[r][s];
+          if (r === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+
+      // Highlight PCA reconstruction silhouette (mid-ring) in accent color
+      const midRing = projected[Math.floor(geom.slices / 2)];
+      ctx.strokeStyle = accent;
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      midRing.forEach(([x, y], i) => i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y));
+      ctx.closePath();
+      ctx.stroke();
+
+      raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
+
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+  }, [height, color, accent, active, autoSpin, pc1, pc2, geom]);
+
+  // Drag handlers
+  useEffect(() => {
+    if (!interactive) return;
+    const el = wrapRef.current;
+    if (!el) return;
+    const onDown = (e) => {
+      const st = stateRef.current;
+      st.dragging = true;
+      st.lx = e.clientX; st.ly = e.clientY;
+      e.preventDefault();
+    };
+    const onMove = (e) => {
+      const st = stateRef.current;
+      if (!st.dragging) return;
+      const dx = e.clientX - st.lx, dy = e.clientY - st.ly;
+      st.lx = e.clientX; st.ly = e.clientY;
+      st.vx = dx * 0.012;
+      st.vy = dy * 0.008;
+      st.ay += st.vx;
+      st.ax = Math.max(-0.6, Math.min(0.6, st.ax + st.vy));
+    };
+    const onUp = () => { stateRef.current.dragging = false; };
+    el.addEventListener('mousedown', onDown);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    return () => {
+      el.removeEventListener('mousedown', onDown);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+    };
+  }, [interactive]);
+
+  return (
+    <div ref={wrapRef} style={{
+      width: '100%', height, position: 'relative',
+      cursor: interactive ? (active ? 'grab' : 'default') : 'default',
+      userSelect: 'none', touchAction: 'none',
+    }}>
+      <canvas ref={canvasRef} style={{ display: 'block' }} />
+      {/* Corner annotations */}
+      <div style={{ position: 'absolute', left: 14, top: 12, fontFamily: '"JetBrains Mono", monospace', fontSize: 9, letterSpacing: 1.2, color: 'rgba(15,15,15,0.55)', textTransform: 'uppercase' }}>{label}</div>
+      <div style={{ position: 'absolute', right: 14, top: 12, fontFamily: '"JetBrains Mono", monospace', fontSize: 9, letterSpacing: 1.2, color: 'rgba(15,15,15,0.55)', textTransform: 'uppercase' }}>{active ? '● live' : '○ idle'}</div>
+      <div style={{ position: 'absolute', left: 14, bottom: 12, fontFamily: '"JetBrains Mono", monospace', fontSize: 9, letterSpacing: 1.2, color: 'rgba(15,15,15,0.4)', textTransform: 'uppercase' }}>n=10 · pca k=4</div>
+      <div style={{ position: 'absolute', right: 14, bottom: 12, fontFamily: '"JetBrains Mono", monospace', fontSize: 9, letterSpacing: 1.2, color: 'rgba(15,15,15,0.4)', textTransform: 'uppercase' }}>{interactive ? 'drag · rotate' : 'preview'}</div>
+    </div>
+  );
+}
+
+// Inline mono slider
+function MonoSlider({ label, value, min, max, step = 0.01, onChange, accent = 'oklch(0.62 0.14 240)' }) {
+  const pct = ((value - min) / (max - min)) * 100;
+  return (
+    <div style={{ marginBottom: 10 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
+        <span style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 10, letterSpacing: 1.4, color: 'rgba(15,15,15,0.6)', textTransform: 'uppercase' }}>{label}</span>
+        <span style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 11, fontVariantNumeric: 'tabular-nums', color: '#0f0f0f' }}>{value >= 0 ? '+' : ''}{value.toFixed(2)}</span>
+      </div>
+      <div style={{ position: 'relative', height: 12, display: 'flex', alignItems: 'center' }}>
+        <div style={{ position: 'absolute', left: 0, right: 0, height: 1, background: 'rgba(15,15,15,0.22)' }} />
+        <div style={{ position: 'absolute', left: 0, width: `${pct}%`, height: 1, background: accent }} />
+        <input type="range" min={min} max={max} step={step} value={value}
+          onChange={(e) => onChange(parseFloat(e.target.value))}
+          onClick={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
+          style={{ position: 'absolute', left: 0, right: 0, width: '100%', opacity: 0, height: 12, cursor: 'pointer', margin: 0 }} />
+        <div style={{
+          position: 'absolute', left: `calc(${pct}% - 5px)`,
+          width: 10, height: 10, background: accent,
+          pointerEvents: 'none', borderRadius: 1,
+        }} />
+      </div>
+    </div>
+  );
+}
+
 function CLProjects() {
   const { isMobile, isTablet } = useContext(MobileCtx);
   const [active, setActive] = React.useState(null);
-  const projects = [
-    { t: 'MPI Faust PCA Visualization', yr: '2025', tag: 'Python', note: 'Interactive visualization of PCA results for the MPI Faust dataset to better understand how principal components capture shape variations.', link: 'dashboard.html' },
+  const [hoveringDash, setHoveringDash] = React.useState(false);
+  const [pc1, setPc1] = React.useState(0);
+  const [pc2, setPc2] = React.useState(0);
+  // Tweak: 'hover' (default), 'always', 'autoplay', 'off'
+  const [previewMode, setPreviewMode] = React.useState('hover');
+
+  // Listen for tweaks panel
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      if (!e.data || typeof e.data !== 'object') return;
+      if (e.data.type === '__activate_edit_mode') window.__cl_setTweaks?.(true);
+      if (e.data.type === '__deactivate_edit_mode') window.__cl_setTweaks?.(false);
+      if (e.data.type === '__cl_preview_mode') setPreviewMode(e.data.mode);
+    };
+    window.addEventListener('message', onMsg);
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dashActive =
+    previewMode === 'off' ? false :
+    previewMode === 'always' || previewMode === 'autoplay' ? true :
+    hoveringDash;
+  const autoSpin = previewMode !== 'off';
+
+  const others = [
     { t: 'Moodle – AI Canine Collar', yr: '2025–26', tag: 'Hardware · Senior Capstone', note: 'Collar-mounted system with BLE firmware (C++), 6-DOF IMU activity classifier, YAMNet bark detection, and a CoreML valence-arousal classifier — plus a full Swift iOS companion app.' },
     { t: 'iPhone Gait Analysis', yr: '2024–', tag: 'Research · Biomechanics', note: 'Co-led validation of iPhone-based gait analysis against gold-standard motion capture. Structural analysis in JMP and Python. Published in MDPI Sensors; presented at BMES 2025.' },
     { t: 'NSF Spine Wearable', yr: '2024–', tag: 'Hardware · NIH-funded', note: 'Contributing to mechanical development, sensor integration, and study design for a spine-mounted wearable at the Mobile Biomechanics Lab, Cal Poly.' },
   ];
+
   return (
     <div style={{ padding: isMobile ? '36px 20px 60px' : isTablet ? '44px 32px 70px' : '56px 40px 80px' }}>
       <Reveal><CLLabel n="§3.0">Projects</CLLabel></Reveal>
@@ -985,48 +1324,280 @@ function CLProjects() {
         </CLGrid>
       </Reveal>
 
-      <CLGrid style={{ marginTop: 56, rowGap: 36 }}>
-        {projects.map((p, i) => (
-          <Reveal key={i} delay={140 + i * 70} style={{ gridColumn: isTablet ? `${1 + (i % 2) * 6} / span 6` : `${1 + (i % 3) * 4} / span 4` }}>
-            <div
-              onClick={() => setActive(active === i ? null : i)}
-              data-cursor="hover"
-              style={{ cursor: 'pointer' }}
-            >
-              <ImgPlaceholder w="100%" h={180} note={`§3.${i+1} · ${p.t}`} color={CL_COLORS.ink} bg="#e3ddcc" stripe={i % 2 ? 'dot' : 'diag'} />
-              <div style={{
-                display: 'flex', justifyContent: 'space-between',
-                marginTop: 12, fontSize: 10, letterSpacing: 1.2,
-                color: CL_COLORS.mute, textTransform: 'uppercase',
-              }}>
-                <span>§3.{i+1} · {p.tag}</span>
-                <span>{p.yr}</span>
-              </div>
-              <div style={{ marginTop: 6, fontSize: 20, fontWeight: 600, letterSpacing: -0.3 }}>
-                {p.t}
-              </div>
-              <div style={{
-                maxHeight: active === i ? 140 : 0, overflow: 'hidden',
-                transition: 'max-height .35s cubic-bezier(.2,.7,.3,1), margin-top .35s',
-                marginTop: active === i ? 8 : 0,
-                fontSize: 13, lineHeight: 1.55, color: CL_COLORS.mute,
-              }}>
-                {p.note}
-                {p.link
-                  ? <a href={p.link} target="_blank" rel="noopener noreferrer"
-                      onClick={e => e.stopPropagation()}
-                      style={{ display: 'block', marginTop: 10, fontSize: 10, letterSpacing: 1.4, color: CL_COLORS.ink, textTransform: 'uppercase', textDecoration: 'none' }}>
-                      View interactive dashboard →
-                    </a>
-                  : <div style={{ marginTop: 10, fontSize: 10, letterSpacing: 1.4, color: CL_COLORS.ink, textTransform: 'uppercase' }}>
-                      Read the case →
-                    </div>
-                }
-              </div>
+      {/* FEATURE CARD — Dashboard */}
+      <Reveal delay={140}>
+        <div
+          onMouseEnter={() => setHoveringDash(true)}
+          onMouseLeave={() => setHoveringDash(false)}
+          style={{
+            marginTop: 56,
+            position: 'relative',
+            background: dashActive ? '#f4f1ea' : 'transparent',
+            border: `1px solid ${dashActive ? CL_COLORS.ink : CL_COLORS.rule}`,
+            transition: 'background .4s, border-color .4s, box-shadow .4s',
+            boxShadow: dashActive ? '0 24px 60px -32px rgba(15,15,15,0.35)' : 'none',
+            // Slight grid break — pull left/right beyond the column gutter
+            marginLeft: isMobile ? 0 : -8,
+            marginRight: isMobile ? 0 : -8,
+          }}
+        >
+          {/* Top metadata strip */}
+          <div style={{
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            padding: '12px 18px',
+            borderBottom: `1px solid ${CL_COLORS.rule}`,
+            fontFamily: CL_FONTS.mono, fontSize: 10, letterSpacing: 1.4,
+            textTransform: 'uppercase', color: CL_COLORS.mute,
+          }}>
+            <span>§3.1 · Featured · Live</span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{
+                width: 6, height: 6, borderRadius: 3,
+                background: dashActive ? 'oklch(0.62 0.14 240)' : CL_COLORS.mute,
+                animation: dashActive ? 'cl-pulse 1.6s ease-out infinite' : 'none',
+              }} />
+              <style>{`@keyframes cl-pulse { 0%{opacity:.3} 50%{opacity:1} 100%{opacity:.3} }`}</style>
+              {dashActive ? 'Streaming' : 'Hover to activate'}
+            </span>
+          </div>
+
+          {/* Body — 2 columns */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : isTablet ? '1fr 1fr' : '1.4fr 1fr',
+            minHeight: isMobile ? 'auto' : 480,
+          }}>
+            {/* Left — 3D preview */}
+            <div style={{
+              position: 'relative',
+              borderRight: isMobile ? 'none' : `1px solid ${CL_COLORS.rule}`,
+              borderBottom: isMobile ? `1px solid ${CL_COLORS.rule}` : 'none',
+              background: dashActive ? 'transparent' : '#e9e4d6',
+              transition: 'background .4s',
+            }}>
+              <TorsoPreview
+                height={isMobile ? 320 : 480}
+                active={dashActive}
+                autoSpin={autoSpin && (previewMode !== 'always' || hoveringDash || previewMode === 'autoplay')}
+                pc1={pc1}
+                pc2={pc2}
+                interactive={dashActive}
+                label="Participant 01 · A-Pose"
+              />
+              {!dashActive && (
+                <div style={{
+                  position: 'absolute', inset: 0, display: 'flex',
+                  alignItems: 'center', justifyContent: 'center',
+                  pointerEvents: 'none',
+                }}>
+                  <div style={{
+                    fontFamily: CL_FONTS.mono, fontSize: 11, letterSpacing: 2,
+                    textTransform: 'uppercase', color: CL_COLORS.ink,
+                    padding: '10px 18px',
+                    background: 'rgba(238,234,224,0.92)',
+                    border: `1px solid ${CL_COLORS.ink}`,
+                  }}>Hover · Wake mesh</div>
+                </div>
+              )}
             </div>
-          </Reveal>
-        ))}
+
+            {/* Right — info + PCA scrub */}
+            <div style={{ padding: isMobile ? 24 : 32, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 24 }}>
+              <div>
+                <div style={{
+                  display: 'flex', justifyContent: 'space-between',
+                  fontSize: 10, letterSpacing: 1.2, color: CL_COLORS.mute,
+                  textTransform: 'uppercase', marginBottom: 14,
+                }}>
+                  <span>Python · Plotly · Trimesh</span>
+                  <span>2025</span>
+                </div>
+                <h3 style={{
+                  margin: 0, fontFamily: CL_FONTS.mono, fontSize: 28, fontWeight: 600,
+                  letterSpacing: -0.5, lineHeight: 1.1,
+                }}>
+                  MPI Faust PCA<br />Visualization
+                </h3>
+                <p style={{
+                  marginTop: 14, fontSize: 13, lineHeight: 1.6, color: CL_COLORS.mute,
+                }}>
+                  Interactive PCA decomposition of 3D body scans. Drag the
+                  mesh to rotate; scrub PC1/PC2 to see how each principal
+                  component deforms torso shape.
+                </p>
+              </div>
+
+              <div style={{
+                opacity: dashActive ? 1 : 0.35,
+                transition: 'opacity .4s',
+                pointerEvents: dashActive ? 'auto' : 'none',
+              }}>
+                <div style={{
+                  fontFamily: CL_FONTS.mono, fontSize: 9, letterSpacing: 1.6,
+                  color: CL_COLORS.mute, textTransform: 'uppercase',
+                  display: 'flex', justifyContent: 'space-between', marginBottom: 10,
+                }}>
+                  <span>PCA · Live scrub</span>
+                  <span>k=2 of 4</span>
+                </div>
+                <MonoSlider label="PC 1 · Width" value={pc1} min={-2} max={2} onChange={setPc1} />
+                <MonoSlider label="PC 2 · Taper" value={pc2} min={-2} max={2} onChange={setPc2} />
+              </div>
+
+              <a href="dashboard.html"
+                onClick={(e) => e.stopPropagation()}
+                data-cursor="hover"
+                style={{
+                  display: 'inline-flex', justifyContent: 'space-between', alignItems: 'center',
+                  textDecoration: 'none', color: CL_COLORS.ink,
+                  borderTop: `1px solid ${CL_COLORS.ink}`,
+                  paddingTop: 14, fontSize: 12, letterSpacing: 1.4,
+                  textTransform: 'uppercase', fontWeight: 600,
+                }}>
+                <span>Open full dashboard</span>
+                <span>→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Other 3 projects — asymmetric */}
+      <CLGrid style={{ marginTop: 36, rowGap: 36 }}>
+        {others.map((p, i) => {
+          // Asymmetric: first one wider (span 7), the other two stacked right (span 5)
+          const layout = isTablet || isMobile
+            ? { gridColumn: '1 / span 12' }
+            : i === 0 ? { gridColumn: '1 / span 7' }
+            : i === 1 ? { gridColumn: '8 / span 5' }
+            : { gridColumn: '8 / span 5' };
+          return (
+            <Reveal key={i} delay={220 + i * 70} style={layout}>
+              <div
+                onClick={() => setActive(active === i ? null : i)}
+                data-cursor="hover"
+                style={{ cursor: 'pointer' }}
+              >
+                <ImgPlaceholder w="100%" h={i === 0 ? 200 : 140}
+                  note={`§3.${i+2} · ${p.t}`}
+                  color={CL_COLORS.ink} bg="#e3ddcc"
+                  stripe={i % 2 ? 'dot' : 'diag'} />
+                <div style={{
+                  display: 'flex', justifyContent: 'space-between',
+                  marginTop: 12, fontSize: 10, letterSpacing: 1.2,
+                  color: CL_COLORS.mute, textTransform: 'uppercase',
+                }}>
+                  <span>§3.{i+2} · {p.tag}</span>
+                  <span>{p.yr}</span>
+                </div>
+                <div style={{ marginTop: 6, fontSize: 20, fontWeight: 600, letterSpacing: -0.3 }}>
+                  {p.t}
+                </div>
+                <div style={{
+                  maxHeight: active === i ? 200 : 0, overflow: 'hidden',
+                  transition: 'max-height .35s cubic-bezier(.2,.7,.3,1), margin-top .35s',
+                  marginTop: active === i ? 8 : 0,
+                  fontSize: 13, lineHeight: 1.55, color: CL_COLORS.mute,
+                }}>
+                  {p.note}
+                  <div style={{ marginTop: 10, fontSize: 10, letterSpacing: 1.4, color: CL_COLORS.ink, textTransform: 'uppercase' }}>
+                    Read the case →
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          );
+        })}
       </CLGrid>
+
+      {/* Tweaks panel for the dashboard preview */}
+      <CLTweaksPanel previewMode={previewMode} setPreviewMode={setPreviewMode} />
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Tweaks Panel — exposes preview behavior toggle
+// ─────────────────────────────────────────────────────────────
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "previewMode": "always"
+}/*EDITMODE-END*/;
+
+function CLTweaksPanel({ previewMode, setPreviewMode }) {
+  const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      if (!e.data || typeof e.data !== 'object') return;
+      if (e.data.type === '__activate_edit_mode') setOpen(true);
+      if (e.data.type === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    // Announce after listener mounted
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  // Apply default once
+  React.useEffect(() => {
+    if (TWEAK_DEFAULTS.previewMode && TWEAK_DEFAULTS.previewMode !== previewMode) {
+      setPreviewMode(TWEAK_DEFAULTS.previewMode);
+    }
+  }, []); // eslint-disable-line
+
+  if (!open) return null;
+
+  const update = (mode) => {
+    setPreviewMode(mode);
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { previewMode: mode } }, '*');
+  };
+
+  const close = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  const options = [
+    { id: 'hover', l: 'Hover to activate', s: 'Sleeps until hovered' },
+    { id: 'always', l: 'Always interactive', s: 'Live + spinning, ready to grab' },
+    { id: 'autoplay', l: 'Auto-play loop', s: 'Keeps spinning, no input' },
+    { id: 'off', l: 'Off', s: 'Static placeholder' },
+  ];
+
+  return (
+    <div style={{
+      position: 'fixed', right: 24, bottom: 90, zIndex: 9999,
+      width: 280, background: '#eeeae0',
+      border: `1px solid ${CL_COLORS.ink}`,
+      boxShadow: '0 24px 60px -20px rgba(0,0,0,0.4)',
+      fontFamily: CL_FONTS.mono, color: CL_COLORS.ink,
+    }}>
+      <div style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        padding: '10px 14px', borderBottom: `1px solid ${CL_COLORS.rule}`,
+        fontSize: 10, letterSpacing: 1.4, textTransform: 'uppercase',
+      }}>
+        <span>Tweaks</span>
+        <span onClick={close} style={{ cursor: 'pointer', padding: '0 4px' }}>×</span>
+      </div>
+      <div style={{ padding: 14 }}>
+        <div style={{ fontSize: 9, letterSpacing: 1.4, color: CL_COLORS.mute, textTransform: 'uppercase', marginBottom: 10 }}>
+          Dashboard preview
+        </div>
+        {options.map((o) => (
+          <div key={o.id}
+            onClick={() => update(o.id)}
+            style={{
+              padding: '10px 12px', marginBottom: 4, cursor: 'pointer',
+              border: `1px solid ${previewMode === o.id ? CL_COLORS.ink : CL_COLORS.rule}`,
+              background: previewMode === o.id ? '#e3ddcc' : 'transparent',
+              transition: 'background .15s, border-color .15s',
+            }}>
+            <div style={{ fontSize: 12, fontWeight: 600 }}>{o.l}</div>
+            <div style={{ fontSize: 10, color: CL_COLORS.mute, marginTop: 2 }}>{o.s}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
